@@ -4,8 +4,8 @@
       <v-alert v-if="errorMessage" type="error" dismissible class="mb-4">
         {{ errorMessage }}
       </v-alert>
-      <h2>Login Form</h2>
-      <h5>Fill Filds and tryt to not make mistake</h5>
+      <!-- <h2>Login Form</h2>
+      <h5>Fill Filds and tryt to not make mistake</h5> -->
       <v-form ref="form" v-model="isFormValid">
         <v-text-field
           v-model="username"

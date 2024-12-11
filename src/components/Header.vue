@@ -33,8 +33,6 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  height: 150px;
-  padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
   background-color: white;
   z-index: 1000;

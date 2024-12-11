@@ -7,7 +7,7 @@ import Footer from "@/components/Footer.vue";
 
 <template>
   <v-app id="inside">
-    <v-app-bar class="px-3" color="grey-4" height="200" flat>
+    <v-app-bar color="grey-4" flat>
       <Header></Header>
     </v-app-bar>
 
@@ -19,9 +19,6 @@ import Footer from "@/components/Footer.vue";
         height: 100%;
         width: 100%;
         position: relative;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-        overflow: hidden; /* Prevent scrolling on v-main */
       "
     >
       <router-view />

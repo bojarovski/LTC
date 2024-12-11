@@ -95,10 +95,18 @@ export default {
 
 <style scoped>
 .register-container {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #54627b;
+  border-radius: 5px;
+  padding: 30px 40px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.form-label {
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.btn-secondary {
+  background-color: #54627b;
 }
 </style>
