@@ -50,8 +50,7 @@ export default {
       console.log(this.formData.name);
       axios.post('http://localhost:8080/post', {
         username: this.formData.name,
-        problem: this.formData.qustion,
-        date: new Date().toISOString().split('T')[0],
+        problem: this.formData.qustion
       }).then(response => {
         if (response.status === 200) {
           this.$router.push({ name: 'Posts' });
