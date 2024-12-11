@@ -3,7 +3,6 @@ import { ref } from 'vue'
 import axios from "axios";
 import Cookies from "js-cookie";
 
-
 export default {
   name: "Posts",
   data() {
@@ -16,60 +15,42 @@ export default {
   },
   methods: {
     runOnLoad() {
-      axios.get('http://localhost:8080/posts').then(respone => {
-        this.data = respone.data;
+      axios.get('http://localhost:8080/posts').then(response => {
+        this.data = response.data;
       }).catch(error => console.error(error));
     },
     goToDetails(id) {
-      this.$router.push({name: 'Details', params: { id }});
+      this.$router.push({ name: 'Details', params: { id } });
     }
   }
 };
-
 </script>
 
 <template>
-  <div>
-    <div class="row">
-      <div class="col-6 mb-4" v-for="(item, index) in data" :key="index">
-        <div class="card card-hover">
-          <div class="card-body post-card-container">
-            <h4 class="card-title">{{item.problem}}</h4>
-            <hr>
-            <span class="card-text"><span class="fw-bold">Datum objave:</span> {{item.date}}</span>
+  <v-container>
+    <v-row>
+      <v-col v-for="(item, index) in data" :key="index" cols="12" md="6" lg="4">
+        <v-card class="mb-4" hover>
+          <v-card-title>
+            <h4 class="headline">{{ item.problem }}</h4>
+          </v-card-title>
+          <v-card-subtitle>
+            <span><strong>Datum objave:</strong> {{ item.date }}</span>
             <br>
-            <span class="card-text"><span class="fw-bold">Avtor:</span> {{item.username}}</span>
-            <div class="text-end">
-              <button class="btn btn-danger" @click="goToDetails(item.ID)">Pomagaj</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
+            <span><strong>Avtor:</strong> {{ item.username }}</span>
+          </v-card-subtitle>
+          <v-card-actions class="justify-end">
+            <v-btn color="error" @click="goToDetails(item.ID)">Pomagaj</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
-<style>
-  .post-card-container {
-    border: 1px solid #54627b;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  }
-
-  .btn-danger {
-    background-color: #fbb2a3 !important;
-    border-color: #fbb2a3 !important;
-  }
-
-  .btn-danger:hover {
-    background-color: #fd9c8c !important;
-    border-color: #fd9c8c !important;
-  }
-
-  .card-hover:hover {
-    background: rgba(162, 190, 239, 0.54);
-    transition: background-color 0.5s ease;
-  }
+<style scoped>
+.v-card {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 </style>

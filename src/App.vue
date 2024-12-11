@@ -6,8 +6,8 @@ import Footer from "@/components/Footer.vue";
 </script>
 
 <template>
-  <v-app id="inside">
-    <v-app-bar color="grey-4" flat>
+  <v-app>
+    <v-app-bar flat>
       <Header></Header>
     </v-app-bar>
 

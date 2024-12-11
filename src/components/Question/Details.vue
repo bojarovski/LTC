@@ -1,73 +1,9 @@
-<template>
-  <div v-if="loading"></div>
-  <div v-else>
-    <div class="post-data-container">
-      <span>{{itemData.problem}}</span>
-      <hr>
-      <span>
-        <span class="fw-bold">Avtor:</span> {{itemData.username}}
-        <br>
-        <span class="fw-bold">Datum objave:</span> {{new Date(itemData.date).toDateString()}}
-      </span>
-      <br>
-      <div class="text-center mt-3">
-        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#answerModal">Pomagaj</button>
-      </div>
-    </div>
-
-    <div v-if="itemData.comments && itemData.comments !== []" class="mt-4 accordion" id="answerAccordion">
-      <div class="accordion-item" v-for="(comment, index) in itemData.comments" :key="index">
-        <h2 class="accordion-header">
-          <button class="accordion-button" type="button" data-bs-toggle="collapse" :data-bs-target="'#' + index" :aria-expanded="index === 0" :aria-controls="index.toString()">
-            <span class="mx-1"><span class="fw-bold">Avtor:</span> {{comment.username}},</span>
-            <span class="mx-1">({{new Date(comment.date).toDateString()}})</span>
-          </button>
-        </h2>
-        <div :id="index.toString()" class="accordion-collapse collapse show" data-bs-parent="#answerAccordion">
-          <div class="accordion-body">
-            {{comment.description}}
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="answerModal" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <form @submit.prevent="postComment">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="answerModalLabel">Odgovor</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-
-              <label class="form-label">Avtor:</label>
-              <input id="authorInput" class="form-control mb-2" placeholder="Vnesite vaše ime..." required style="font-size: 0.9rem;" v-model="formData.name">
-
-              <label class="form-label">Vaše vprašanje:</label>
-              <textarea id="storyInput" type="text" class="post-input-area form-control mb-2" rows="5" placeholder="Predlagajte odgovor" required style="font-size: 0.9rem;" v-model="formData.details"></textarea>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" id="closeModal" data-bs-dismiss="modal">Zapri</button>
-            <button type="submit" class="btn btn-danger">Odgovori</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
-
-</template>
-
 <script>
 import Cookies from 'js-cookie';
-import Answers from "@/components/Answer/Answers.vue";
 import axios from "axios";
+import { ref } from 'vue';
 
 export default {
-  components: {Answers},
   props: ['id'],
   data() {
     return {
@@ -77,6 +13,7 @@ export default {
         name: '',
         details: '',
       },
+      isDialogVisible: false,
     };
   },
   methods: {
@@ -95,7 +32,6 @@ export default {
       }
     },
     postComment() {
-      let closeModalButton = document.getElementById('closeModal');
       axios.post('http://localhost:8080/comment', {
         post_id: this.id,
         username: this.formData.name,
@@ -104,7 +40,7 @@ export default {
       }).then(response => {
         if (response.status === 200) {
           this.getQuestionData();
-          closeModalButton.click();
+          this.isDialogVisible = false;
         }
       }).catch(error => console.error(error));
     }
@@ -116,18 +52,82 @@ export default {
 };
 </script>
 
+<template>
+  <v-container v-if="!loading">
+    <!-- Question Details -->
+    <div class="post-data-container">
+      <span>{{ itemData.problem }}</span>
+      <v-divider class="my-2"></v-divider>
+      <span>
+        <span class="font-weight-bold">Avtor:</span> {{ itemData.username }}
+        <br>
+        <span class="font-weight-bold">Datum objave:</span> {{ new Date(itemData.date).toDateString() }}
+      </span>
+      <v-row class="mt-3" justify="center">
+        <v-btn color="error" @click="isDialogVisible = true">Pomagaj</v-btn>
+      </v-row>
+    </div>
+
+    <!-- Comments Section -->
+    <v-expansion-panels v-if="itemData.comments && itemData.comments.length" class="mt-4">
+      <v-expansion-panel v-for="(comment, index) in itemData.comments" :key="index">
+        <v-expansion-panel-header>
+          <span class="mx-1"><strong>Avtor:</strong> {{ comment.username }},</span>
+          <span class="mx-1">({{ new Date(comment.date).toDateString() }})</span>
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          {{ comment.description }}
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
+  </v-container>
+
+  <!-- Comment Modal (Dialog) -->
+  <v-dialog v-model="isDialogVisible" max-width="500px">
+    <v-card>
+      <v-card-title class="headline">Odgovor</v-card-title>
+      <v-card-text>
+        <v-text-field
+          label="Avtor"
+          v-model="formData.name"
+          placeholder="Vnesite vaše ime..."
+          required
+          dense
+        ></v-text-field>
+
+        <v-textarea
+          label="Vaše vprašanje"
+          v-model="formData.details"
+          placeholder="Predlagajte odgovor"
+          rows="5"
+          required
+          dense
+        ></v-textarea>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn text @click="isDialogVisible = false">Zapri</v-btn>
+        <v-btn color="error" @click="postComment">Odgovori</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+</template>
+
 <style scoped>
-.btn-danger {
+.v-btn.error {
   background-color: #fbb2a3 !important;
   border-color: #fbb2a3 !important;
 }
 
-.btn-danger:hover {
+.v-btn.error:hover {
   background-color: #fd9c8c !important;
   border-color: #fd9c8c !important;
 }
 
-.btn-secondary {
-  background-color: #54627b;
+.v-dialog {
+  max-width: 500px;
+}
+
+.v-divider {
+  border-color: #54627b;
 }
 </style>
