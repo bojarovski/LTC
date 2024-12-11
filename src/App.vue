@@ -6,37 +6,25 @@ import Footer from "@/components/Footer.vue";
 </script>
 
 <template>
-  <v-app id="app">
+  <v-app id="inside">
     <v-app-bar class="px-3" color="grey-4" height="200" flat>
       <Header></Header>
     </v-app-bar>
-    <v-navigation-drawer
-      location="right"
-      class="scrollable-drawer"
+
+    <Navbar />
+    <v-main
       style="
-        overflow-y: auto;
-        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        position: relative;
         scrollbar-width: none;
         -ms-overflow-style: none;
+        overflow: hidden; /* Prevent scrolling on v-main */
       "
     >
-      <div
-        class="mx-2"
-        style="
-          height: 100%;
-          overflow-y: auto;
-          overflow-x: hidden;
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-        "
-      >
-        <h3>Configurations</h3>
-        <Configuration />
-      </div>
-    </v-navigation-drawer>
-    <Navbar />
-    <v-main>
-      <router-view style="position: relative" />
+      <router-view />
     </v-main>
     <v-footer>
       <Footer></Footer>
