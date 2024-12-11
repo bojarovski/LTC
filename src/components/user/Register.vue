@@ -84,7 +84,7 @@ export default {
               window.location.reload();
             });
           } catch (error) {
-            this.errorMessage = error;
+            console.log();            this.errorMessage = error.response.data.message;
           }
         } else {
           this.errorMessage = "Please fill in all fields";
