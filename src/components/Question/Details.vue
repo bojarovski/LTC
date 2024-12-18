@@ -4,9 +4,9 @@
     <v-card outlined elevation="2" class="pa-4 mb-4">
       <v-row class="mb-2" justify="space-between" align="center">
         <h4 class="mb-0">{{ itemData.problem }}</h4>
-        {{ itemData.likeCount }}
+
         <v-btn @click="toggleHeart" :color="heartColor" class="pa-0">
-          Like
+          Like {{ itemData.likeCount }}
         </v-btn>
       </v-row>
       <v-divider class="mb-3"></v-divider>
