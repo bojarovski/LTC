@@ -1,5 +1,5 @@
 <script>
-import { ref } from 'vue'
+import { ref } from "vue";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -8,21 +8,24 @@ export default {
   data() {
     return {
       data: null,
-    }
+    };
   },
   mounted() {
     this.runOnLoad();
   },
   methods: {
     runOnLoad() {
-      axios.get('http://localhost:8080/posts').then(response => {
-        this.data = response.data;
-      }).catch(error => console.error(error));
+      axios
+        .get("http://localhost:8080/posts")
+        .then((response) => {
+          this.data = response.data;
+        })
+        .catch((error) => console.error(error));
     },
     goToDetails(id) {
-      this.$router.push({ name: 'Details', params: { id } });
-    }
-  }
+      this.$router.push({ name: "Details", params: { id } });
+    },
+  },
 };
 </script>
 
@@ -36,7 +39,7 @@ export default {
           </v-card-title>
           <v-card-subtitle>
             <span><strong>Datum objave:</strong> {{ item.date }}</span>
-            <br>
+            <br />
             <span><strong>Avtor:</strong> {{ item.username }}</span>
           </v-card-subtitle>
           <v-card-actions class="justify-end">

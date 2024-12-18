@@ -10,7 +10,7 @@ const vuetify = createVuetify({
   directives,
   icons: {
     icons: {
-      defaultSet: "md", // Material Icons
+      defaultSet: "mdi", // Material Icons
     },
   },
 });

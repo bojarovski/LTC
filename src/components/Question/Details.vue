@@ -2,7 +2,13 @@
   <v-container v-if="!loading" class="py-5">
     <!-- Question Details -->
     <v-card outlined elevation="2" class="pa-4 mb-4">
-      <h4 class="mb-2">{{ itemData.problem }}</h4>
+      <v-row class="mb-2" justify="space-between" align="center">
+        <h4 class="mb-0">{{ itemData.problem }}</h4>
+        {{ itemData.likeCount }}
+        <v-btn @click="toggleHeart" :color="heartColor" class="pa-0">
+          Like
+        </v-btn>
+      </v-row>
       <v-divider class="mb-3"></v-divider>
       <p>
         <strong>Avtor:</strong> {{ itemData.username }}<br />
@@ -77,6 +83,7 @@ export default {
       },
       isDialogVisible: false,
       isLoggedIn: false,
+      heartColor: "grey", // Default heart color
     };
   },
   methods: {
@@ -93,6 +100,11 @@ export default {
         if (response.status === 200) {
           this.itemData = response.data;
           this.loading = false;
+
+          // Check if the post has already been liked by this user
+          if (sessionStorage.getItem(`likedPost-${this.id}`)) {
+            this.heartColor = "red"; // Set the heart color to red
+          }
         }
       } catch (error) {
         console.error("Error fetching question data:", error);
@@ -121,6 +133,27 @@ export default {
         console.error("Error posting comment:", error);
       }
     },
+    async toggleHeart() {
+      if (this.heartColor !== "red") {
+        try {
+          // Send a request to increment the like count in the backend
+          await axios.post("http://localhost:8080/post/like", {
+            post_id: this.id,
+          });
+
+          // Increment the like count locally
+          this.itemData.likeCount += 1;
+
+          // Store the liked post's ID in the session
+          sessionStorage.setItem(`likedPost-${this.id}`, true);
+
+          // Change the heart color to red to indicate a "liked" state
+          this.heartColor = "red";
+        } catch (error) {
+          console.error("Error liking the post:", error);
+        }
+      }
+    },
   },
   mounted() {
     this.checkLoginStatus();
@@ -128,7 +161,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-/* No additional styles, using Vuetify default styles */
-</style>
