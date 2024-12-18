@@ -26,9 +26,14 @@
                 required
               ></v-textarea>
 
-              <v-btn type="submit" color="red" class="mt-4 d-block mx-auto"
-                >Vprašaj</v-btn
+              <v-btn
+                type="submit"
+                color="red"
+                class="mt-4 d-block mx-auto"
+                :disabled="isButtonDisabled"
               >
+                Vprašaj
+              </v-btn>
             </v-form>
           </v-card>
         </div>
@@ -74,6 +79,11 @@ export default {
         qustion: "",
       },
     };
+  },
+  computed: {
+    isButtonDisabled() {
+      return !this.formData.name || !this.formData.qustion;
+    },
   },
   methods: {
     checkLoginStatus() {
