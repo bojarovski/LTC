@@ -1,11 +1,13 @@
 <template>
   <div>
     <div class="top-menu">
-      <img
-        class="logo-image"
-        alt="Company Logo"
-        src="../assets/imgs/logo.png"
-      />
+      <a :href="'/'">
+        <img
+          class="logo-image"
+          alt="Company Logo"
+          src="../assets/imgs/logo.png"
+        />
+      </a>
       <router-link
         class="profile-link"
         to="/profile"
