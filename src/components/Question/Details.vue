@@ -16,8 +16,16 @@
         {{ new Date(itemData.date).toDateString() }}
       </p>
       <v-row class="mt-3" justify="center">
-        <v-btn color="primary" @click="isDialogVisible = true">Pomagaj</v-btn>
-        <v-btn color="primary" @click="openSummaryDialog">Summarize</v-btn>
+        <v-btn
+          class="mx-5"
+          color="primary"
+          :disabled="itemData?.locked === true"
+          @click="isDialogVisible = true"
+          >Pomagaj</v-btn
+        >
+        <v-btn class="mx-5" color="primary" @click="openSummaryDialog"
+          >Summarize</v-btn
+        >
       </v-row>
     </v-card>
 
@@ -168,11 +176,14 @@ export default {
       this.summary = null; // Clear previous summary
       this.isSummaryDialogVisible = true; // Open the summary dialog
       try {
-        const response = await axios.get("http://localhost:8080/post/summarize", {
-      params: {
-        post_id: this.id, // Ensure `itemData.id` contains the correct post ID
-      },
-    });
+        const response = await axios.get(
+          "http://localhost:8080/post/summarize",
+          {
+            params: {
+              post_id: this.id, // Ensure `itemData.id` contains the correct post ID
+            },
+          }
+        );
         if (response.status === 200) {
           this.summary = response.data.summary; // Assuming the API returns a 'summary' field
         } else {
