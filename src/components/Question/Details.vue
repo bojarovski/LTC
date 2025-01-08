@@ -17,6 +17,7 @@
       </p>
       <v-row class="mt-3" justify="center">
         <v-btn color="primary" @click="isDialogVisible = true">Pomagaj</v-btn>
+        <v-btn color="primary" @click="openSummaryDialog">Summarize</v-btn>
       </v-row>
     </v-card>
 
@@ -42,6 +43,8 @@
       </v-alert>
     </v-card>
   </v-container>
+
+  <!-- Dialog for Adding a Comment -->
   <v-dialog v-model="isDialogVisible" max-width="500px">
     <v-card>
       <v-card-title class="headline">Dodajte Komentar</v-card-title>
@@ -66,6 +69,20 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+
+  <!-- Dialog for Summary -->
+  <v-dialog v-model="isSummaryDialogVisible" max-width="500px">
+    <v-card>
+      <v-card-title class="headline">Summary</v-card-title>
+      <v-card-text>
+        <p v-if="summary">{{ summary }}</p>
+        <p v-else>Fetching summary...</p>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn text @click="isSummaryDialogVisible = false">Close</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
@@ -83,9 +100,11 @@ export default {
         details: "",
       },
       isDialogVisible: false,
+      isSummaryDialogVisible: false, // For summary dialog
       isLoggedIn: false,
       heartColor: "grey", // Default heart color
       openPanels: [], // Track open panels
+      summary: null, // Store the summary response
     };
   },
   computed: {
@@ -143,6 +162,25 @@ export default {
         }
       } catch (error) {
         console.error("Error posting comment:", error);
+      }
+    },
+    async openSummaryDialog() {
+      this.summary = null; // Clear previous summary
+      this.isSummaryDialogVisible = true; // Open the summary dialog
+      try {
+        const response = await axios.get("http://localhost:8080/post/summarize", {
+      params: {
+        post_id: this.id, // Ensure `itemData.id` contains the correct post ID
+      },
+    });
+        if (response.status === 200) {
+          this.summary = response.data.summary; // Assuming the API returns a 'summary' field
+        } else {
+          this.summary = "Failed to generate summary.";
+        }
+      } catch (error) {
+        console.error("Error summarizing question:", error);
+        this.summary = "Error generating summary.";
       }
     },
     async toggleHeart() {
