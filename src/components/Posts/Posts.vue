@@ -22,7 +22,7 @@
         md="6"
         lg="4"
       >
-        <v-card class="mb-4" hover>
+        <v-card class="mb-4" @click="goToDetails(item.ID)" hover>
           <v-card-title>
             <h4 class="headline">{{ item.problem }}</h4>
           </v-card-title>
