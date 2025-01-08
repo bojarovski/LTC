@@ -69,6 +69,8 @@
           placeholder="Predlagajte odgovor..."
           rows="5"
           required
+          :error="isError"
+          :error-messages="errorMessage"
         ></v-textarea>
       </v-card-text>
       <v-card-actions>
@@ -103,6 +105,8 @@ export default {
     return {
       itemData: null,
       loading: true,
+      isError: false, // To toggle the error state
+      errorMessage: "", // To display the error message
       formData: {
         name: "",
         details: "",
@@ -167,9 +171,17 @@ export default {
           this.getQuestionData();
           this.isDialogVisible = false;
           this.formData = { name: "", details: "" };
+          this.isError = false; // Reset error state
+          this.errorMessage = "";
         }
       } catch (error) {
-        console.error("Error posting comment:", error);
+        if (error.response && error.response.status === 403) {
+          this.isError = true;
+          this.errorMessage = "Ta komentar ni dovoljen."; // Custom error message
+        } else {
+          this.isError = true;
+          this.errorMessage = "Napaka pri pošiljanju odgovora."; // General error message
+        }
       }
     },
     async openSummaryDialog() {

@@ -24,6 +24,8 @@
                 dense
                 rows="5"
                 required
+                :error="isError"
+                :error-messages="errorMessage"
               ></v-textarea>
 
               <v-btn
@@ -78,6 +80,8 @@ export default {
         name: "",
         qustion: "",
       },
+      isError: false, // To indicate if there is an error
+      errorMessage: "", // To store the error message
     };
   },
   computed: {
@@ -90,7 +94,9 @@ export default {
       this.isLoggedIn = !!Cookies.get("id");
     },
     submitAQuestion() {
-      console.log(this.formData.name);
+      this.isError = false; // Reset error state
+      this.errorMessage = ""; // Reset error message
+
       axios
         .post("http://localhost:8080/post", {
           username: this.formData.name,
@@ -101,7 +107,16 @@ export default {
             this.$router.push({ name: "Posts" });
           }
         })
-        .catch((error) => console.error(error));
+        .catch((error) => {
+          if (error.response && error.response.status === 403) {
+            this.isError = true;
+            this.errorMessage = "To vprašanje ni dovoljeno."; // Forbidden error message
+          } else {
+            this.isError = true;
+            this.errorMessage = "Napaka pri pošiljanju vprašanja."; // General error message
+          }
+          console.error(error);
+        });
     },
   },
   mounted() {
