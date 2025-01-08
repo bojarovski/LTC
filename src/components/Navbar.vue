@@ -23,7 +23,7 @@
             <router-link to="/ask">Postavi vprašanje</router-link>
           </li>
           <li @click="toggleMenu">
-            <router-link to="/Chat">Chat</router-link>
+            <router-link to="/Chat">Klepetajte</router-link>
           </li>
           <li v-if="!isLoggedIn" @click="toggleMenu">
             <router-link to="/login">Prijava</router-link>

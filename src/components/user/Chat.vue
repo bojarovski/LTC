@@ -2,7 +2,7 @@
   <v-app>
     <v-container class="pa-4">
       <v-card class="pa-4">
-        <v-card-title class="text-h4">Global Chat</v-card-title>
+        <v-card-title class="text-h4">Globalni klepet</v-card-title>
         <v-card-text>
           <v-container>
             <!-- Chat Messages -->
