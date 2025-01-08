@@ -1,12 +1,12 @@
 <template>
-  <v-container class="register-container">
+  <v-container class="mt-12 register-container">
     <v-alert v-if="errorMessage" type="error" dismissible>
       {{ errorMessage }}
     </v-alert>
 
     <v-form ref="form" lazy-validation>
-      <h2>Login Form</h2>
-      <h5>Fill Filds and tryt to not make mistake</h5>
+      <h2>Register Form</h2>
+
       <v-text-field
         label="Uporabniško ime:"
         v-model="username"
@@ -95,7 +95,7 @@ export default {
 
 <style scoped>
 .register-container {
-  border: 1px solid #54627b;
+  /* border: 1px solid #54627b; */
   border-radius: 5px;
   padding: 30px 40px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);

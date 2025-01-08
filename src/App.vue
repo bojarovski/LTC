@@ -30,7 +30,7 @@ import Footer from "@/components/Footer.vue";
           <br />
           Fakulteta za elektrotehniko, računalništvo in informatiko @ 2024/2025
           <br />
-          MARIO CARE STAMPAJ NAM PARE
+          <!-- MARIO CARE STAMPAJ NAM PARE -->
         </span>
       </v-row>
     </v-footer>

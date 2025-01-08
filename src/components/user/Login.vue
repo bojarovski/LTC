@@ -1,6 +1,6 @@
 <template>
-  <v-container class="flex justify-center">
-    <v-card class="pa-5" elevation="5" max-width="500">
+  <v-container class="flex mt-12 justify-center">
+    <v-card class="pa-5" elevation="5">
       <v-alert v-if="errorMessage" type="error" dismissible class="mb-4">
         {{ errorMessage }}
       </v-alert>

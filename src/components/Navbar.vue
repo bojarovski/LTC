@@ -22,9 +22,9 @@
           <li @click="toggleMenu">
             <router-link to="/ask">Postavi vprašanje</router-link>
           </li>
-          <li @click="toggleMenu">
+          <!-- <li @click="toggleMenu">
             <router-link to="/Chat">Klepetajte</router-link>
-          </li>
+          </li> -->
           <li @click="toggleMenu">
             <router-link to="/chatRooms">Klepetajte Sobo</router-link>
           </li>
