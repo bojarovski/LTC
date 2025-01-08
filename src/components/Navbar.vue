@@ -25,6 +25,9 @@
           <li @click="toggleMenu">
             <router-link to="/Chat">Klepetajte</router-link>
           </li>
+          <li @click="toggleMenu">
+            <router-link to="/chatRooms">Klepetajte Sobo</router-link>
+          </li>
           <li v-if="!isLoggedIn" @click="toggleMenu">
             <router-link to="/login">Prijava</router-link>
           </li>

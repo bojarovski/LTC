@@ -10,6 +10,7 @@ import Answer from "@/components/Answer/Answer.vue";
 import Answers from "@/components/Answer/Answers.vue";
 import Profile from "@/components/user/Profile.vue";
 import Chat from "./components/user/Chat.vue";
+import ChatRooms from "./components/user/chatRooms.vue";
 
 const routes = [
   {
@@ -62,6 +63,11 @@ const routes = [
     path: "/chat",
     name: "Chat",
     component: Chat,
+  },
+  {
+    path: "/chatRooms",
+    name: "Chat Room",
+    component: ChatRooms,
   },
 ];
 
