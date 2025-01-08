@@ -25,7 +25,7 @@
       <h5>Komentarji</h5>
       <v-divider class="mb-3"></v-divider>
       <template v-if="itemData.comments?.length">
-        <v-expansion-panels variant="accordion">
+        <v-expansion-panels v-model="openPanels" variant="accordion">
           <v-expansion-panel
             v-for="(comment, index) in itemData.comments"
             :key="index"
@@ -33,6 +33,7 @@
               comment.date
             ).toDateString()})`"
             :title="comment.description"
+            :value="index"
           ></v-expansion-panel>
         </v-expansion-panels>
       </template>
@@ -84,7 +85,17 @@ export default {
       isDialogVisible: false,
       isLoggedIn: false,
       heartColor: "grey", // Default heart color
+      openPanels: [], // Track open panels
     };
+  },
+  computed: {
+    defaultOpenPanels() {
+      if (!this.itemData || !this.itemData.comments) return [];
+      // Find all indices where the username is "AI"
+      return this.itemData.comments
+        .map((comment, index) => (comment.username === "AI" ? index : null))
+        .filter((index) => index !== null);
+    },
   },
   methods: {
     checkLoginStatus() {
@@ -100,6 +111,7 @@ export default {
         if (response.status === 200) {
           this.itemData = response.data;
           this.loading = false;
+          this.openPanels = this.defaultOpenPanels;
 
           // Check if the post has already been liked by this user
           if (sessionStorage.getItem(`likedPost-${this.id}`)) {
